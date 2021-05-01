@@ -1,0 +1,57 @@
+// Variable
+$primary-color: hotpink;
+
+// Mixin
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+}
+
+.my-element {
+  color: $primary-color;
+  width: 100%;
+  overflow: hidden;
+}
+
+.my-other-element {
+  @include border-radius(5px);
+}
+
+@function pow($base, $exponent) {
+  @warn "The pow() function is deprecated.";
+  $result: 1;
+  @for $_ from 1 through $exponent {
+    $result: $result * $base;
+  }
+  @return $result;
+}
+
+.sidebar {
+  float: left;
+  margin-left: pow(4, 3) * 1px;
+}
+
+@function invert($color, $amount: 100%) {
+  $inverse: change-color($color, $hue: hue($color) + 180);
+  @return mix($inverse, $color, $amount);
+}
+
+$primary-color: #036;
+.header {
+  & > * {
+    background-color: invert($primary-color, 80%);
+  }
+}
+
+@function sum($numbers...) {
+  $sum: 0;
+  @each $number in $numbers {
+    $sum: $sum + $number;
+  }
+  @return $sum;
+}
+
+.micro {
+  width: sum(50px, 30px, 100px);
+}
